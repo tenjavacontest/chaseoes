@@ -45,7 +45,7 @@ public class MobNinjaGame {
         MobNinja.getInstance().getConfig().set("games." + getName() + ".spawn", SerializableLocation.serializeLocation(player.getLocation()));
         MobNinja.getInstance().saveConfig();
     }
-    
+
     public void setMaxPlayers (int i) {
         MobNinja.getInstance().getConfig().set("games." + getName() + ".max-players", i);
         MobNinja.getInstance().saveConfig();
@@ -112,7 +112,9 @@ public class MobNinjaGame {
     }
 
     public void stopGame() {
-        gameTask.cancel();
+        if (gameTask != null) {
+            gameTask.cancel();
+        }
         scoreboard.clear();
         for (String p : getPlayersInGame()) {
             leaveGame(MobNinja.getInstance().getServer().getPlayerExact(p));
