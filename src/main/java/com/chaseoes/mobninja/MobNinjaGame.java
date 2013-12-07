@@ -100,7 +100,7 @@ public class MobNinjaGame {
         wipePlayer(player);
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " left!");
         
-        if (getPlayersInGame().size() == 1) {
+        if (getPlayersInGame().size() <= 1) {
             stopGame();
         }
     }
