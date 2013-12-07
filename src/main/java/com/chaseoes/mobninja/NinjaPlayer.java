@@ -12,6 +12,10 @@ public class NinjaPlayer {
         name = player.getName();
     }
     
+    public int getKills() {
+        return kills;
+    }
+    
     public void setKills(int i) {
         if (i == -1) {
             kills++;

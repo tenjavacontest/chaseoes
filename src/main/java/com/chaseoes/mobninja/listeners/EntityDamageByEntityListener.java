@@ -18,6 +18,7 @@ public class EntityDamageByEntityListener implements Listener {
                 if (GameUtilities.playerIsIngame(player)) {
                     NinjaPlayer np = new NinjaPlayer(player);
                     np.setKills(-1);
+                    player.sendMessage(np.getKills() + " (kills)");
                 }
             }
         }

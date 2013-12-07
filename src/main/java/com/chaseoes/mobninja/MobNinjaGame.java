@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.chaseoes.mobninja.utilities.SerializableLocation;
 import com.chaseoes.mobninja.utilities.Utilities;
@@ -33,6 +34,10 @@ public class MobNinjaGame {
         playersInGame.add(player.getName());
         player.teleport(SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn")));
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " joined!");
+        
+        if (getPlayersInGame().size() == 2) {
+            startGame();
+        }
     }
     
     public void leaveGame(Player player) {
@@ -42,7 +47,7 @@ public class MobNinjaGame {
     }
     
     public void startGame() {
-        
+        BukkitTask task = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, 100L);
     }
     
     public void stopGame() {
