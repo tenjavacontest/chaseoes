@@ -1,6 +1,7 @@
 package com.chaseoes.mobninja;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ public class MobNinjaGame {
     
     private String name;
     private List<String> playersInGame = new ArrayList<String>();
+    private HashMap<String, NinjaPlayer> ninjaPlayers = new HashMap<String, NinjaPlayer>();
     
     public MobNinjaGame(String name) {
         this.name = name;
@@ -33,6 +35,7 @@ public class MobNinjaGame {
     
     public void joinGame(Player player) {
         playersInGame.add(player.getName());
+        ninjaPlayers.put(player.getName(), new NinjaPlayer(player));
         player.teleport(SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn")));
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " joined!");
         
@@ -44,6 +47,7 @@ public class MobNinjaGame {
     
     public void leaveGame(Player player) {
         playersInGame.remove(player.getName());
+        ninjaPlayers.remove(player.getName());
         player.teleport(player.getLocation().getWorld().getSpawnLocation());
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " left!");
     }
@@ -59,6 +63,10 @@ public class MobNinjaGame {
     
     public List<String> getPlayersInGame() {
         return playersInGame;
+    }
+    
+    public HashMap<String, NinjaPlayer> getNinjaPlayers() {
+        return ninjaPlayers;
     }
 
 }
