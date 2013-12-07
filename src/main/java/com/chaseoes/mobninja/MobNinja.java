@@ -28,7 +28,7 @@ public class MobNinja extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new EntityDamageByEntityListener(), this);
         pm.registerEvents(new PlayerQuitListener(), this);
-        
+
         for (String name : getConfig().getConfigurationSection("games").getKeys(false)) {
             games.put(name, new MobNinjaGame(name));
         }
@@ -60,19 +60,41 @@ public class MobNinja extends JavaPlugin {
                     cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
                 }
             }
-            
+
             if (strings[0].equalsIgnoreCase("create")) {
-                if (strings.length == 2) {
-                    MobNinjaGame game = new MobNinjaGame(strings[1]);
-                    if (!game.exists()) {
-                        game.create(player);
-                        games.put(strings[1], game);
-                        cs.sendMessage(Utilities.getPrefix() + "Sucessfully created game!");
+                if (cs.hasPermission("mobninja.create")) {
+                    if (strings.length == 2) {
+                        MobNinjaGame game = new MobNinjaGame(strings[1]);
+                        if (!game.exists()) {
+                            game.create(player);
+                            games.put(strings[1], game);
+                            cs.sendMessage(Utilities.getPrefix() + "Sucessfully created game!");
+                        } else {
+                            cs.sendMessage(Utilities.getPrefix() + "That game already exists!");
+                        }
                     } else {
-                        cs.sendMessage(Utilities.getPrefix() + "That game already exists!");
+                        cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
                     }
                 } else {
-                    cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                    cs.sendMessage(Utilities.getPrefix() + "You don't have permission.");
+                }
+            }
+
+            if (strings[0].equalsIgnoreCase("addspawn")) {
+                if (cs.hasPermission("mobninja.addspawn")) {
+                    if (strings.length == 2) {
+                        if (games.containsKey(strings[1])) {
+                            MobNinjaGame game = getGame(strings[1]);
+                            game.addSpawn(player.getLocation());
+                            cs.sendMessage(Utilities.getPrefix() + "Added spawn location!");
+                        } else {
+                            cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
+                        }
+                    } else {
+                        cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                    }
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "You don't have permission.");
                 }
             }
         } else {
