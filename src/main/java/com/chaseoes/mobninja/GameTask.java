@@ -26,7 +26,6 @@ public class GameTask extends BukkitRunnable {
             i++;
 
             if (i == game.getSpawns().size()) {
-                System.out.println("i = 0");
                 i = 0;
             }
             return;
