@@ -11,6 +11,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.chaseoes.mobninja.listeners.EntityDamageByEntityListener;
+import com.chaseoes.mobninja.listeners.PlayerQuitListener;
 import com.chaseoes.mobninja.utilities.Utilities;
 
 public class MobNinja extends JavaPlugin {
@@ -26,6 +27,7 @@ public class MobNinja extends JavaPlugin {
         instance = this;
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new EntityDamageByEntityListener(), this);
+        pm.registerEvents(new PlayerQuitListener(), this);
         
         for (String name : getConfig().getConfigurationSection("games").getKeys(false)) {
             games.put(name, new MobNinjaGame(name));

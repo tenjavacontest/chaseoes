@@ -11,9 +11,13 @@ import com.chaseoes.mobninja.NinjaPlayer;
 public class EntityDamageByEntityListener implements Listener {
 
     public void entityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Arrow) {
+        System.out.println("EVENT!");
+        System.out.println(event.getDamager());
+        /*if (event.getDamager() instanceof Arrow) {
+            System.out.println("ARROW!");
             Arrow arrow = (Arrow) event.getDamager();
             if (arrow.getShooter() instanceof Player) {
+                System.out.println("PLAYER!");
                 Player player = (Player) arrow.getShooter();
                 if (GameUtilities.playerIsIngame(player)) {
                     NinjaPlayer np = new NinjaPlayer(player);
@@ -21,7 +25,7 @@ public class EntityDamageByEntityListener implements Listener {
                     player.sendMessage(np.getKills() + " (kills)");
                 }
             }
-        }
+        }*/
     }
 
 }
