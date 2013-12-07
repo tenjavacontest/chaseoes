@@ -97,6 +97,7 @@ public class MobNinjaGame {
         playersInGame.remove(player.getName());
         ninjaPlayers.remove(player.getName());
         player.teleport(player.getLocation().getWorld().getSpawnLocation());
+        player.setScoreboard(MobNinja.getInstance().getServer().getScoreboardManager().getNewScoreboard());
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " left!");
     }
 
@@ -112,6 +113,7 @@ public class MobNinjaGame {
 
     public void stopGame() {
         gameTask.cancel();
+        scoreboard.clear();
         for (String p : getPlayersInGame()) {
             leaveGame(MobNinja.getInstance().getServer().getPlayerExact(p));
         }
