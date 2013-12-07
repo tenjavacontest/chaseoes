@@ -16,9 +16,11 @@ public class MobNinjaGame {
     private String name;
     private List<String> playersInGame = new ArrayList<String>();
     private HashMap<String, NinjaPlayer> ninjaPlayers = new HashMap<String, NinjaPlayer>();
+    private GameScoreboard scoreboard;
 
     public MobNinjaGame(String name) {
         this.name = name;
+        scoreboard = new GameScoreboard(this);
     }
 
     public String getName() {
@@ -51,11 +53,16 @@ public class MobNinjaGame {
     public Location getSpawnLocation() {
         return SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn"));
     }
+    
+    public GameScoreboard getScoreboard() {
+        return scoreboard;
+    }
 
     public void joinGame(Player player) {
         playersInGame.add(player.getName());
         ninjaPlayers.put(player.getName(), new NinjaPlayer(player));
         player.teleport(getSpawnLocation());
+        player.setScoreboard(getScoreboard().getScoreboard());
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " joined!");
 
         System.out.println(playersInGame.size());

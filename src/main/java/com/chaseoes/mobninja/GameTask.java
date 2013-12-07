@@ -15,6 +15,7 @@ import com.chaseoes.mobninja.utilities.SerializableLocation;
 public class GameTask extends BukkitRunnable {
 
     MobNinjaGame game;
+    int i = 0;
 
     public GameTask(MobNinjaGame game) {
         this.game = game;
@@ -33,16 +34,17 @@ public class GameTask extends BukkitRunnable {
                 player.getInventory().addItem(bow);
             }
 
-            int i = 0;
             while (i != game.getSpawns().size()) {
-                launch(SerializableLocation.unSerializeLocation(game.getSpawns().get(i)));
+                Location loc = SerializableLocation.unSerializeLocation(game.getSpawns().get(i));
+                loc.add(0.5, 0, 0.5);
+                launch(loc);
                 i++;
+                
+                if (i == game.getSpawns().size()) {
+                    i = 0;
+                }
+                return;
             }
-//
-//            for (double t = 0; t < 2 * Math.PI; t += 1) {
-//                Location l = player.getLocation().add(-7 * Math.cos(t), 0, -7 * Math.sin(t));
-//                launch(l);
-//            }
         }
     }
 

@@ -22,7 +22,7 @@ public class EntityDamageByEntityListener implements Listener {
                     MobNinjaGame game = GameUtilities.getCurrentGame(player);
                     NinjaPlayer np = game.getNinjaPlayers().get(player.getName());
                     np.setKills(-1);
-                    player.sendMessage(np.getKills() + " (kills)");
+                    game.getScoreboard().update();
                 }
             }
         }
