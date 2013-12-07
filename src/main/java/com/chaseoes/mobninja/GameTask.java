@@ -20,7 +20,6 @@ public class GameTask extends BukkitRunnable {
     @Override
     public void run() {
         while (i != game.getSpawns().size()) {
-            System.out.println("SPAWNING");
             Location loc = SerializableLocation.unSerializeLocation(game.getSpawns().get(i));
             loc.add(0.5, 0, 0.5);
             launch(loc);
