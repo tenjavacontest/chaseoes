@@ -22,6 +22,7 @@ public class MobNinjaGame {
     private GameScoreboard scoreboard;
     private BukkitTask gameTask;
     private int maxPlayers;
+    private GameStatus status = GameStatus.WAITING;
 
     public MobNinjaGame(String name) {
         this.name = name;
@@ -35,6 +36,10 @@ public class MobNinjaGame {
 
     public String getName() {
         return name;
+    }
+    
+    public GameStatus getStatus() {
+        return status;
     }
 
     public boolean exists() {
@@ -111,6 +116,7 @@ public class MobNinjaGame {
     }
 
     public void startGame() {
+        status = GameStatus.STARTED;
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has started!");
         gameTask = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, 100L);
     }
@@ -131,6 +137,7 @@ public class MobNinjaGame {
         ninjaPlayers.clear();
         playersInGame.clear();
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has ended.");
+        status = GameStatus.WAITING;
     }
 
     public List<String> getPlayersInGame() {

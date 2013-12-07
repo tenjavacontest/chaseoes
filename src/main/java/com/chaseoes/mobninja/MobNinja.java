@@ -59,7 +59,11 @@ public class MobNinja extends JavaPlugin {
                         MobNinjaGame game = GameUtilities.getCurrentGame(player);
                         if (game == null) {
                             game = getGame(strings[1]);
-                            game.joinGame(player);
+                            if (game.getStatus() == GameStatus.WAITING) {
+                                game.joinGame(player);
+                            } else {
+                                cs.sendMessage(Utilities.getPrefix() + "That game has already started.");
+                            }
                         } else {
                             cs.sendMessage(Utilities.getPrefix() + "You're already in a game!");
                         }
@@ -89,8 +93,12 @@ public class MobNinja extends JavaPlugin {
                     if (strings.length == 2) {
                         if (games.containsKey(strings[1])) {
                             MobNinjaGame game = getGame(strings[1]);
-                            game.startGame();
-                            cs.sendMessage(Utilities.getPrefix() + "Game started.");
+                            if (game.getStatus() == GameStatus.WAITING) {
+                                game.startGame();
+                                cs.sendMessage(Utilities.getPrefix() + "Game started.");
+                            } else {
+                                cs.sendMessage(Utilities.getPrefix() + "That game has already started.");
+                            }
                         } else {
                             cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
                         }
@@ -107,8 +115,12 @@ public class MobNinja extends JavaPlugin {
                     if (strings.length == 2) {
                         if (games.containsKey(strings[1])) {
                             MobNinjaGame game = getGame(strings[1]);
-                            game.stopGame();
-                            cs.sendMessage(Utilities.getPrefix() + "Game stopped.");
+                            if (game.getStatus() == GameStatus.STARTED) {
+                                game.stopGame();
+                                cs.sendMessage(Utilities.getPrefix() + "Game stopped.");
+                            } else {
+                                cs.sendMessage(Utilities.getPrefix() + "That game hasn't been started!");
+                            }
                         } else {
                             cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
                         }
