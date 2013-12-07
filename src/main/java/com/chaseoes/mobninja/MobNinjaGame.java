@@ -28,6 +28,7 @@ public class MobNinjaGame {
     
     public void create(Player player) {
         MobNinja.getInstance().getConfig().set("games." + getName() + ".spawn", SerializableLocation.serializeLocation(player.getLocation()));
+        MobNinja.getInstance().saveConfig();
     }
     
     public void joinGame(Player player) {
@@ -35,6 +36,7 @@ public class MobNinjaGame {
         player.teleport(SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn")));
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " joined!");
         
+        System.out.println(playersInGame.size());
         if (getPlayersInGame().size() == 2) {
             startGame();
         }
@@ -47,6 +49,7 @@ public class MobNinjaGame {
     }
     
     public void startGame() {
+        MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has started!");
         BukkitTask task = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, 100L);
     }
     

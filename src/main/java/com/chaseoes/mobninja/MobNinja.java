@@ -26,10 +26,16 @@ public class MobNinja extends JavaPlugin {
         instance = this;
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new EntityDamageByEntityListener(), this);
+        
+        for (String name : getConfig().getConfigurationSection("games").getKeys(false)) {
+            games.put(name, new MobNinjaGame(name));
+        }
     }
 
     public void onDisable() {
         instance = null;
+        reloadConfig();
+        saveConfig();
     }
 
     public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings) {
@@ -42,8 +48,8 @@ public class MobNinja extends JavaPlugin {
             Player player = (Player) cs;
             if (strings[0].equalsIgnoreCase("join")) {
                 if (strings.length == 2) {
-                    MobNinjaGame game = new MobNinjaGame(strings[1]);
-                    if (game.exists()) {
+                    if (games.containsKey(strings[1])) {
+                        MobNinjaGame game = getGame(strings[1]);
                         game.joinGame(player);
                     } else {
                         cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
@@ -58,6 +64,7 @@ public class MobNinja extends JavaPlugin {
                     MobNinjaGame game = new MobNinjaGame(strings[1]);
                     if (!game.exists()) {
                         game.create(player);
+                        games.put(strings[1], game);
                         cs.sendMessage(Utilities.getPrefix() + "Sucessfully created game!");
                     } else {
                         cs.sendMessage(Utilities.getPrefix() + "That game already exists!");

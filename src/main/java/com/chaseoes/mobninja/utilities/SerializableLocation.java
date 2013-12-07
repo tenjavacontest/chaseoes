@@ -7,12 +7,13 @@ import com.chaseoes.mobninja.MobNinja;
 public class SerializableLocation {
     
     public static String serializeLocation(Location location) {
+        String world = location.getWorld().getName();
         int x = location.getBlockX();
         int y = location.getBlockY();
         int z = location.getBlockZ();
         float pitch = location.getPitch();
         float yaw = location.getYaw();
-        return x + ":" + y + ":" + z + ":" + pitch + ":" + yaw;
+        return world + ":" + x + ":" + y + ":" + z + ":" + pitch + ":" + yaw;
     }
     
     public static Location unSerializeLocation(String string) {
