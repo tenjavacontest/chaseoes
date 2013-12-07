@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <name>_PluginTemplate</name>
-    <description>The template I use for all my plugins. The name starts with _ so it appears first in my file/project listings.</description>
+    <name>MobNinja</name>
+    <description>MobNinja!</description>
     <version>1.0</version>
     
     <groupId>com.chaseoes</groupId>
@@ -10,7 +10,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <upload.dbo.category>bukkit-plugins</upload.dbo.category>
-        <upload.dbo.slug>plugintemplate</upload.dbo.slug>
+        <upload.dbo.slug>mobninja</upload.dbo.slug>
     </properties>
     <issueManagement>
         <system>GitHub</system>

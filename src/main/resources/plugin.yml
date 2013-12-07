@@ -3,6 +3,6 @@ main: ${project.groupId}.${upload.dbo.slug}.${project.name}
 version: ${project.version}
 description: ${project.description}
 commands:
-  plugintemplate:
+  mobninja:
     description: The central command for the ${project.name} plugin.
     usage: /<command> [args]

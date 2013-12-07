@@ -1,10 +1,9 @@
 # chaseoes' ten.java Submission
 
-Let's get this out of the way! This is NAME -- my submission to the ten.java plugin contest.
+Let's get this out of the way! This is MobNinja -- my submission to the ten.java plugin contest.
 
-* **Name:** NAME
-* **Description:** DESCRIPTION
-* **Download:** http://ci.chaseoes.com/job/name/
+* **Name:** MobNinja
+* **Description:** A Minecraft minigame based upon Fruit Ninja!
 
 ## Commands
 
