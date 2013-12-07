@@ -31,7 +31,7 @@ public class GameScoreboard {
             Score score = objective.getScore(player);
             score.setScore(np.getKills());
             
-            if (score.getScore() == 25) {
+            if (score.getScore() == 10) {
                 game.winGame(player);
             }
         }
