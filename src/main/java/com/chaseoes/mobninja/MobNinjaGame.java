@@ -31,11 +31,13 @@ public class MobNinjaGame {
     
     public void joinGame(Player player) {
         playersInGame.add(player.getName());
+        player.teleport(SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn")));
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " joined!");
     }
     
     public void leaveGame(Player player) {
         playersInGame.remove(player.getName());
+        player.teleport(player.getLocation().getWorld().getSpawnLocation());
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " left!");
     }
     

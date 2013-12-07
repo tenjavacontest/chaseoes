@@ -48,6 +48,22 @@ public class MobNinja extends JavaPlugin {
                     } else {
                         cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
                     }
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                }
+            }
+            
+            if (strings[0].equalsIgnoreCase("create")) {
+                if (strings.length == 2) {
+                    MobNinjaGame game = new MobNinjaGame(strings[1]);
+                    if (!game.exists()) {
+                        game.create(player);
+                        cs.sendMessage(Utilities.getPrefix() + "Sucessfully created game!");
+                    } else {
+                        cs.sendMessage(Utilities.getPrefix() + "That game already exists!");
+                    }
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
                 }
             }
         } else {
