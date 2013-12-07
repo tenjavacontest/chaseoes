@@ -143,6 +143,24 @@ public class MobNinja extends JavaPlugin {
                     cs.sendMessage(Utilities.getPrefix() + "You don't have permission.");
                 }
             }
+            
+            if (strings[0].equalsIgnoreCase("setmax")) {
+                if (cs.hasPermission("mobninja.setmax")) {
+                    if (strings.length == 3) {
+                        if (games.containsKey(strings[1])) {
+                            MobNinjaGame game = getGame(strings[1]);
+                            game.setMaxPlayers(Integer.parseInt(strings[2]));
+                            cs.sendMessage(Utilities.getPrefix() + "Maximum players set to " + strings[2] + "!");
+                        } else {
+                            cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
+                        }
+                    } else {
+                        cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                    }
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "You don't have permission.");
+                }
+            }
         } else {
             cs.sendMessage("You must be a player to use that command!");
         }

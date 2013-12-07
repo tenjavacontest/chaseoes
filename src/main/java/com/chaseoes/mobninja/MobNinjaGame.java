@@ -21,10 +21,16 @@ public class MobNinjaGame {
     private HashMap<String, NinjaPlayer> ninjaPlayers = new HashMap<String, NinjaPlayer>();
     private GameScoreboard scoreboard;
     private BukkitTask gameTask;
+    private int maxPlayers;
 
     public MobNinjaGame(String name) {
         this.name = name;
         scoreboard = new GameScoreboard(this);
+        if (MobNinja.getInstance().getConfig().getString("games." + getName() + ".max-players") != null) {
+            maxPlayers = MobNinja.getInstance().getConfig().getInt("games." + getName() + ".max-players");
+        } else {
+            setMaxPlayers(5);
+        }
     }
 
     public String getName() {
@@ -37,6 +43,11 @@ public class MobNinjaGame {
 
     public void create(Player player) {
         MobNinja.getInstance().getConfig().set("games." + getName() + ".spawn", SerializableLocation.serializeLocation(player.getLocation()));
+        MobNinja.getInstance().saveConfig();
+    }
+    
+    public void setMaxPlayers (int i) {
+        MobNinja.getInstance().getConfig().set("games." + getName() + ".max-players", i);
         MobNinja.getInstance().saveConfig();
     }
 
@@ -57,7 +68,7 @@ public class MobNinjaGame {
     public Location getSpawnLocation() {
         return SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn"));
     }
-    
+
     public GameScoreboard getScoreboard() {
         return scoreboard;
     }
@@ -68,7 +79,7 @@ public class MobNinjaGame {
         player.teleport(getSpawnLocation());
         player.setScoreboard(getScoreboard().getScoreboard());
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " joined!");
-        
+
         ItemStack bow = new ItemStack(Material.BOW, 1);
         bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
         bow.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 10);
@@ -76,8 +87,8 @@ public class MobNinjaGame {
             player.getInventory().clear();
             player.getInventory().addItem(bow);
         }
-        
-        if (getPlayersInGame().size() == 1) {
+
+        if (getPlayersInGame().size() == maxPlayers) {
             startGame();
         }
     }
@@ -93,7 +104,7 @@ public class MobNinjaGame {
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has started!");
         gameTask = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, 100L);
     }
-    
+
     public void winGame(Player player) {
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " won the game!");
         stopGame();
