@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.chaseoes.mobninja.utilities.SerializableLocation;
@@ -17,6 +20,7 @@ public class MobNinjaGame {
     private List<String> playersInGame = new ArrayList<String>();
     private HashMap<String, NinjaPlayer> ninjaPlayers = new HashMap<String, NinjaPlayer>();
     private GameScoreboard scoreboard;
+    private BukkitTask gameTask;
 
     public MobNinjaGame(String name) {
         this.name = name;
@@ -64,8 +68,15 @@ public class MobNinjaGame {
         player.teleport(getSpawnLocation());
         player.setScoreboard(getScoreboard().getScoreboard());
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " joined!");
-
-        System.out.println(playersInGame.size());
+        
+        ItemStack bow = new ItemStack(Material.BOW, 1);
+        bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+        bow.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 10);
+        if (!player.getInventory().contains(Material.BOW)) {
+            player.getInventory().clear();
+            player.getInventory().addItem(bow);
+        }
+        
         if (getPlayersInGame().size() == 1) {
             startGame();
         }
@@ -80,11 +91,20 @@ public class MobNinjaGame {
 
     public void startGame() {
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has started!");
-        BukkitTask task = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, 100L);
+        gameTask = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, 100L);
+    }
+    
+    public void winGame(Player player) {
+        MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " won the game!");
+        stopGame();
     }
 
     public void stopGame() {
-
+        gameTask.cancel();
+        for (String p : getPlayersInGame()) {
+            leaveGame(MobNinja.getInstance().getServer().getPlayerExact(p));
+        }
+        MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has ended.");
     }
 
     public List<String> getPlayersInGame() {

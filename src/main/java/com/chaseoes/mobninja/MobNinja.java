@@ -35,9 +35,10 @@ public class MobNinja extends JavaPlugin {
     }
 
     public void onDisable() {
-        instance = null;
+        getServer().getScheduler().cancelTasks(this);
         reloadConfig();
         saveConfig();
+        instance = null;
     }
 
     public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings) {
@@ -58,6 +59,51 @@ public class MobNinja extends JavaPlugin {
                     }
                 } else {
                     cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                }
+            }
+
+            if (strings[0].equalsIgnoreCase("leave")) {
+                if (strings.length == 1) {
+                    MobNinjaGame game = GameUtilities.getCurrentGame(player);
+                    game.leaveGame(player);
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                }
+            }
+
+            if (strings[0].equalsIgnoreCase("start")) {
+                if (cs.hasPermission("mobninja.start")) {
+                    if (strings.length == 2) {
+                        if (games.containsKey(strings[1])) {
+                            MobNinjaGame game = getGame(strings[1]);
+                            game.startGame();
+                            cs.sendMessage(Utilities.getPrefix() + "Game started.");
+                        } else {
+                            cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
+                        }
+                    } else {
+                        cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                    }
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "You don't have permission.");
+                }
+            }
+
+            if (strings[0].equalsIgnoreCase("stop")) {
+                if (cs.hasPermission("mobninja.stop")) {
+                    if (strings.length == 2) {
+                        if (games.containsKey(strings[1])) {
+                            MobNinjaGame game = getGame(strings[1]);
+                            game.stopGame();
+                            cs.sendMessage(Utilities.getPrefix() + "Game stopped.");
+                        } else {
+                            cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
+                        }
+                    } else {
+                        cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
+                    }
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "You don't have permission.");
                 }
             }
 

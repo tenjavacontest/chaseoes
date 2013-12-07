@@ -30,6 +30,10 @@ public class GameScoreboard {
             NinjaPlayer np = game.getNinjaPlayers().get(player.getName());
             Score score = objective.getScore(player);
             score.setScore(np.getKills());
+            
+            if (score.getScore() == 25) {
+                game.winGame(player);
+            }
         }
     }
     
