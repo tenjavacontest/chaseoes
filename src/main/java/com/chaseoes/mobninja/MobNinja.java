@@ -11,20 +11,27 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import com.chaseoes.mobninja.listeners.EntityDamageByEntityListener;
+import com.chaseoes.mobninja.utilities.Utilities;
+
 public class MobNinja extends JavaPlugin implements Listener {
-    
+
     private static MobNinja instance;
-    
+
     public static MobNinja getInstance() {
         return instance;
     }
-	
+
     public void onEnable() {
         instance = this;
         getServer().getPluginManager().registerEvents(this, this);
+
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new EntityDamageByEntityListener(), this);
     }
 
     public void onDisable() {
@@ -32,32 +39,22 @@ public class MobNinja extends JavaPlugin implements Listener {
     }
 
     public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings) {
-        
+        if (strings.length == 0) {
+            cs.sendMessage(Utilities.getPrefix() + "Version " + getDescription().getVersion() + " by " + getDescription().getAuthors().get(0) + ".");
+            return true;
+        }
+
+        if (strings[0].equalsIgnoreCase("join")) {
+            if (strings.length == 2) {
+                MobNinjaGame game = new MobNinjaGame(strings[1]);
+                if (game.exists()) {
+                    
+                } else {
+                    cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
+                }
+            }
+        }
         return true;
-    }
-    
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.hasBlock() && event.getClickedBlock().getType() == Material.EMERALD_BLOCK) {
-            launch(event.getPlayer());
-        }
-    }
-    
-    public void launch(Player p) {
-        Entity entity = p.getLocation().getWorld().spawnEntity(p.getLocation().add(12, -20, 0), EntityType.VILLAGER);
-        Vector entityVelocity = entity.getVelocity();
-        double launchSpeed = 2.5;
-        
-        entityVelocity.setY(launchSpeed);
-        entity.setVelocity(entityVelocity);
-        
-        ItemStack bow = new ItemStack(Material.BOW, 1);
-        bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
-        bow.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 10);
-        if (!p.getInventory().contains(Material.BOW)) {
-            p.getInventory().clear();
-            p.getInventory().addItem(bow);
-        }
     }
 
 }
