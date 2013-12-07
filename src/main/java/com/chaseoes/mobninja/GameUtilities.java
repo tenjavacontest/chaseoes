@@ -5,11 +5,16 @@ import org.bukkit.entity.Player;
 public class GameUtilities {
     
     public static boolean playerIsIngame(Player player) {
-        return false;
+        return getCurrentGame(player) != null;
     }
     
     public static MobNinjaGame getCurrentGame(Player player) {
-        return new MobNinjaGame("a");
+        for (MobNinjaGame game : MobNinja.getInstance().getGames()) {
+            if (game.getPlayersInGame().contains(player.getName())) {
+                return game;
+            }
+        }
+        return null;
     }
 
 }
