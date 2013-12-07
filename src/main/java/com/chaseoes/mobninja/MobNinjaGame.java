@@ -47,6 +47,7 @@ public class MobNinjaGame {
     }
 
     public void setMaxPlayers (int i) {
+        maxPlayers = i;
         MobNinja.getInstance().getConfig().set("games." + getName() + ".max-players", i);
         MobNinja.getInstance().saveConfig();
     }
@@ -96,9 +97,13 @@ public class MobNinjaGame {
     public void leaveGame(Player player) {
         playersInGame.remove(player.getName());
         ninjaPlayers.remove(player.getName());
+        wipePlayer(player);
+        MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " left!");
+    }
+    
+    public void wipePlayer(Player player) {
         player.teleport(player.getLocation().getWorld().getSpawnLocation());
         player.setScoreboard(MobNinja.getInstance().getServer().getScoreboardManager().getNewScoreboard());
-        MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " left!");
     }
 
     public void startGame() {
@@ -117,8 +122,10 @@ public class MobNinjaGame {
         }
         scoreboard.clear();
         for (String p : getPlayersInGame()) {
-            leaveGame(MobNinja.getInstance().getServer().getPlayerExact(p));
+            wipePlayer(MobNinja.getInstance().getServer().getPlayerExact(p));
         }
+        ninjaPlayers.clear();
+        playersInGame.clear();
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has ended.");
     }
 
