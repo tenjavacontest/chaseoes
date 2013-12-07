@@ -58,8 +58,8 @@ public class MobNinja extends JavaPlugin {
                     if (games.containsKey(strings[1])) {
                         MobNinjaGame game = GameUtilities.getCurrentGame(player);
                         if (game == null) {
-                        MobNinjaGame game = getGame(strings[1]);
-                        game.joinGame(player);
+                            game = getGame(strings[1]);
+                            game.joinGame(player);
                         } else {
                             cs.sendMessage(Utilities.getPrefix() + "You're already in a game!");
                         }
