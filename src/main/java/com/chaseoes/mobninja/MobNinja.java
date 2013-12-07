@@ -56,8 +56,13 @@ public class MobNinja extends JavaPlugin {
             if (strings[0].equalsIgnoreCase("join")) {
                 if (strings.length == 2) {
                     if (games.containsKey(strings[1])) {
+                        MobNinjaGame game = GameUtilities.getCurrentGame(player);
+                        if (game == null) {
                         MobNinjaGame game = getGame(strings[1]);
                         game.joinGame(player);
+                        } else {
+                            cs.sendMessage(Utilities.getPrefix() + "You're already in a game!");
+                        }
                     } else {
                         cs.sendMessage(Utilities.getPrefix() + "That game does not exist!");
                     }
@@ -69,7 +74,11 @@ public class MobNinja extends JavaPlugin {
             if (strings[0].equalsIgnoreCase("leave")) {
                 if (strings.length == 1) {
                     MobNinjaGame game = GameUtilities.getCurrentGame(player);
-                    game.leaveGame(player);
+                    if (game != null) {
+                        game.leaveGame(player);
+                    } else {
+                        cs.sendMessage(Utilities.getPrefix() + "You aren't in a game!"); 
+                    }
                 } else {
                     cs.sendMessage(Utilities.getPrefix() + "Incorrect command usage!");
                 }
@@ -147,7 +156,7 @@ public class MobNinja extends JavaPlugin {
                     cs.sendMessage(Utilities.getPrefix() + "You don't have permission.");
                 }
             }
-            
+
             if (strings[0].equalsIgnoreCase("setmax")) {
                 if (cs.hasPermission("mobninja.setmax")) {
                     if (strings.length == 3) {
