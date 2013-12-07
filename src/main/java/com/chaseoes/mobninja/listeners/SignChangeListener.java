@@ -13,9 +13,10 @@ public class SignChangeListener implements Listener {
     public void onSignChange(SignChangeEvent event) {
         if (event.getPlayer().hasPermission("mobninja.createsign")) {
             if (event.getLine(0).equalsIgnoreCase("[MobNinja]")) {
+                String map = event.getLine(1);
                 event.setLine(0, ChatColor.BOLD + "[MobNinja]");
                 event.setLine(1, "Click to join:");
-                event.setLine(2, event.getLine(1));
+                event.setLine(2, map);
                 event.setLine(3, "--");
                 event.getPlayer().sendMessage(Utilities.getPrefix() + "Added join sign successfully!");
             }
