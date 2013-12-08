@@ -32,6 +32,9 @@ public class MobNinja extends JavaPlugin {
         pm.registerEvents(new PlayerQuitListener(), this);
         pm.registerEvents(new SignChangeListener(), this);
         pm.registerEvents(new PlayerInteractListener(), this);
+        
+        getConfig().options().copyDefaults(true);
+        saveConfig();
 
         for (String name : getConfig().getConfigurationSection("games").getKeys(false)) {
             games.put(name, new MobNinjaGame(name));

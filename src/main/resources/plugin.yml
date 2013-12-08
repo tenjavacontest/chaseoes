@@ -7,3 +7,4 @@ commands:
   mobninja:
     description: The central command for the ${project.name} plugin.
     usage: /<command> [args]
+    aliases: [mn]

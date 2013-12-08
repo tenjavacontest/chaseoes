@@ -35,7 +35,7 @@ public class GameTask extends BukkitRunnable {
     public static void launch(Location l) {
         Entity entity = l.getWorld().spawnEntity(l, EntityType.VILLAGER);
         Vector entityVelocity = entity.getVelocity();
-        double launchSpeed = 2.6;
+        double launchSpeed = MobNinja.getInstance().getConfig().getDouble("settings.launch-velocity");
 
         entityVelocity.setY(launchSpeed);
         entity.setVelocity(entityVelocity);

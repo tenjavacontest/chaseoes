@@ -72,7 +72,7 @@ public class MobNinjaGame {
     }
 
     public Location getSpawnLocation() {
-        return SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn"));
+        return SerializableLocation.unSerializeLocation(MobNinja.getInstance().getConfig().getString("games." + getName() + ".spawn")).add(0.5, 0, 0.5);
     }
 
     public GameScoreboard getScoreboard() {
