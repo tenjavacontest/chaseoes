@@ -8,6 +8,14 @@ _Compiled with **Bukkit 1.6.4-R2.0** and compatible with **1.6.x** and **1.7.x**
 
 This is a plugin that was inspired by the Fruit Ninja game for Android. The idea is that you set spawnpoints, mobs will shoot up from them, and you must try and shoot them down while standing on a platform. For each mob you kill you get a point, and the first player to 10 points wins.
 
+### Whoops!
+Turns out the plugin has a bug where it will throw an error when you try to use it for the first time. This didn't affect my testing because it attempts to load a configuration value I already had there, but is not there the first time you install it. You can fix this by adding a dummy map to the configuration before starting the server:
+
+    games:
+      test:
+        spawn: world:276:95:59:21.300001:-89.99941
+        max-players: 5
+
 ## Map Setup
 1. Build the physical map. An example map can be found on my test server, **vps.chaseoes.com:1337**. [You can download my example map here](http://chaseoes.com/downloads/mob_ninja_map.zip). A map should contain a platform you shoot the mobs from, and spawnpoints (spots where you want the mobs to shoot up from).
 1. Stand on your platform where you want people to spawn when they join the game, and type **/mobninja create <map name>**. This will create the map.
@@ -71,6 +79,12 @@ This is a plugin that was inspired by the Fruit Ninja game for Android. The idea
     <td>Permission to use `/mobninja setmax`.</td>
   </tr>
 </table>
+
+## Configuration
+
+    settings:
+      launch-velocity: 2.6 // The velocity at which the mobs are shot up.
+      launch-speed: 4 // The delay between each mob being shot up.
 
 ## Compilation
 
