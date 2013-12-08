@@ -42,6 +42,10 @@ public class MobNinja extends JavaPlugin {
     }
 
     public void onDisable() {
+        for (MobNinjaGame game : games.values()) {
+            game.stopGame();
+        }
+
         getServer().getScheduler().cancelTasks(this);
         reloadConfig();
         saveConfig();

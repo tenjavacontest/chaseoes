@@ -37,7 +37,7 @@ public class MobNinjaGame {
     public String getName() {
         return name;
     }
-    
+
     public GameStatus getStatus() {
         return status;
     }
@@ -50,7 +50,7 @@ public class MobNinjaGame {
         MobNinja.getInstance().getConfig().set("games." + getName() + ".spawn", SerializableLocation.serializeLocation(player.getLocation()));
         MobNinja.getInstance().saveConfig();
     }
-    
+
     public int getMaxPlayers() {
         return maxPlayers;
     }
@@ -93,10 +93,11 @@ public class MobNinjaGame {
         ItemStack bow = new ItemStack(Material.BOW, 1);
         bow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
         bow.addUnsafeEnchantment(Enchantment.ARROW_DAMAGE, 10);
-        if (!player.getInventory().contains(Material.BOW)) {
-            player.getInventory().clear();
-            player.getInventory().addItem(bow);
-        }
+        player.getInventory().clear();
+        player.updateInventory();
+        player.getInventory().addItem(bow);
+        player.getInventory().addItem(new ItemStack(Material.ARROW, 1));
+        player.updateInventory();
 
         if (getPlayersInGame().size() == maxPlayers) {
             startGame();
@@ -108,12 +109,12 @@ public class MobNinjaGame {
         ninjaPlayers.remove(player.getName());
         wipePlayer(player);
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + player.getName() + " left!");
-        
+
         if (getPlayersInGame().size() <= 1) {
             stopGame();
         }
     }
-    
+
     public void wipePlayer(Player player) {
         player.teleport(player.getLocation().getWorld().getSpawnLocation());
         player.setScoreboard(MobNinja.getInstance().getServer().getScoreboardManager().getNewScoreboard());
@@ -122,7 +123,7 @@ public class MobNinjaGame {
     public void startGame() {
         status = GameStatus.STARTED;
         MobNinja.getInstance().getServer().broadcastMessage(Utilities.getPrefix() + "The game has started!");
-        gameTask = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, 100L);
+        gameTask = new GameTask(this).runTaskTimer(MobNinja.getInstance(), 0L, MobNinja.getInstance().getConfig().getInt("settings.launch-speed") * 20L);
     }
 
     public void winGame(Player player) {
