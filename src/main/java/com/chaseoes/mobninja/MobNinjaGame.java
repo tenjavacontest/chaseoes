@@ -50,6 +50,10 @@ public class MobNinjaGame {
         MobNinja.getInstance().getConfig().set("games." + getName() + ".spawn", SerializableLocation.serializeLocation(player.getLocation()));
         MobNinja.getInstance().saveConfig();
     }
+    
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
 
     public void setMaxPlayers (int i) {
         maxPlayers = i;

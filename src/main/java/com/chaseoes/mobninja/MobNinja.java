@@ -32,7 +32,7 @@ public class MobNinja extends JavaPlugin {
         pm.registerEvents(new PlayerQuitListener(), this);
         pm.registerEvents(new SignChangeListener(), this);
         pm.registerEvents(new PlayerInteractListener(), this);
-        
+
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -63,7 +63,11 @@ public class MobNinja extends JavaPlugin {
                         if (game == null) {
                             game = getGame(strings[1]);
                             if (game.getStatus() == GameStatus.WAITING) {
-                                game.joinGame(player);
+                                if (!(game.getPlayersInGame().size() == game.getMaxPlayers())) {
+                                    game.joinGame(player);
+                                } else {
+                                    cs.sendMessage(Utilities.getPrefix() + "That game is full!");
+                                }
                             } else {
                                 cs.sendMessage(Utilities.getPrefix() + "That game has already started.");
                             }
